@@ -1,0 +1,7 @@
+poetry.lock
+
+dist
+docs
+test-results.xml
+*.pyc
+*.egg-*

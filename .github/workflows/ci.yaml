@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  check_run:
+    types: [rerequested, requested_action]
+  push:
+    branches: [master, develop]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - uses: actions/checkout@v2
+    - uses: pre-commit/action@v2.0.0
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', 'pypy3']
+    name: Test with Python ${{ matrix.python-version }}
+    steps:
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - uses: actions/checkout@v2
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      if: ${{ startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') }}
+      with:
+        path: |
+            ~/.poetry/
+            ~/.cache/pypoetry/cache
+        # For non-libraries you should hash poetry.lock
+        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.python-version }}-dependencies-
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      if: ${{ startsWith(runner.os, 'Windows') }}
+      with:
+        path: |
+            %USERPROFILE%\.poetry\bin
+        key: ${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-dependencies-
+    - name: Install dependencies
+      run: |
+        if ! which poetry &> /dev/null; then
+            curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+        fi
+        source ~/.poetry/env
+        poetry install
+    - name: Test with pytest
+      run: |
+        source ~/.poetry/env
+        poetry run pytest --doctest-modules --color=yes --junit-xml=test-results.xml
