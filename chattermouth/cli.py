@@ -1,8 +1,8 @@
-import asyncio
+"""An interaction context for the command line."""
+
 import getpass
 import os
 import pwd
-import subprocess
 from typing import Optional
 
 from .core import AbstractInteractionContext, Message, UserInfo
@@ -11,7 +11,10 @@ from .core import AbstractInteractionContext, Message, UserInfo
 class CliUserInfo(UserInfo):
     def __init__(self):
         self.user: str = getpass.getuser()
+        """The username of the user."""
+
         self.user_id: str = str(os.getuid())
+        """The UID of the user."""
 
     async def get_full_name(self) -> Optional[str]:
         """Get the full name of the user."""
@@ -19,16 +22,20 @@ class CliUserInfo(UserInfo):
 
 
 class CliMessage(Message):
+    """A message from the CLI."""
+
     def __init__(self, content: str) -> None:
         self.user: UserInfo = CliUserInfo()
+        """The user associated with this `Message`."""
         self.content: str = content
+        """The content of the message."""
 
     def __str__(self) -> str:
         return self.content
 
 
 class CliInteractionContext(AbstractInteractionContext):
-    """The abstract super type of the context used for interacting with the user."""
+    """An interaction context for the CLI."""
 
     def __init__(self) -> None:
         pass

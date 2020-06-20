@@ -38,22 +38,40 @@ class Message:
     def __str__(self) -> str:
         return self.content
 
+    def __len__(self) -> int:
+        return len(self.content)
+
 
 class AbstractInteractionContext(abc.ABC):
     """The abstract super type of the context used for interacting with the user."""
 
     @abc.abstractmethod
     async def tell(self, message: str) -> None:
-        """Send a message to the user."""
+        """Send a message to the user.
+
+        Args:
+            message: The message to send to the user.
+        """
         ...
 
     @abc.abstractmethod
     async def listen(self) -> Message:
-        """Listen for a message from the user."""
+        """Listen for a message from the user.
+
+        Returns:
+            The first message the user reponds with.
+        """
         ...
 
     async def ask(self, message: str) -> Message:
-        """Send a message to the user and listen for a response."""
+        """Send a message to the user and listen for a response.
+
+        Args:
+            message: The message to send to the user.
+
+        Returns:
+            The first message the user responds with.
+        """
         await self.tell(message)
         return await self.listen()
 
@@ -98,15 +116,30 @@ def enter_interaction_context(context: Optional[AbstractInteractionContext] = No
 
 
 async def tell(message: str) -> None:
-    """Send a message to the user."""
+    """Send a message to the user.
+
+    Args:
+        message: The message to send to the user.
+    """
     return await interaction_context().tell(message)
 
 
 async def listen() -> Message:
-    """Listen for a message from the user."""
+    """Listen for a message from the user.
+
+    Returns:
+        The first message the user reponds with.
+    """
     return await interaction_context().listen()
 
 
 async def ask(message: str) -> Message:
-    """Send a message to the user and listen for a response."""
+    """Send a message to the user and listen for a response.
+
+    Args:
+        message: The message to send to the user.
+
+    Returns:
+        The first message the user responds with.
+    """
     return await interaction_context().ask(message)

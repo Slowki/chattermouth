@@ -1,34 +1,6 @@
-# Python Project Template
+# `chattermouth`
 
-![CI](https://github.com/Slowki/python-template/workflows/CI/badge.svg?branch=master)
+![Documentation](https://github.io/Slowki/chattermouth)
+[![CI](https://img.shields.io/badge/Documentation-chattermouth-blue)](https://github.io/Slowki/chattermouth)
 
-## Dependencies
-
-Dependencies are managed via [`poetry`](https://python-poetry.org/).
-
-## Unit Tests
-
-Unit tests are run via `pytest`.
-
-```bash
-poetry run pytest
-```
-
-## Git Hooks
-
-The [`git` hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) are managed via [`pre-commit`](https://pre-commit.com/).
-
-### Installing the Hooks
-
-```bash
-pip install pre-commit
-pre-commit install --install-hooks
-```
-
-## Building Documentation
-
-Documentation is built with [`pdoc3`]().
-
-```bash
-poetry run pdoc3 --html -o docs template
-```
+A library for text based bot interactions.

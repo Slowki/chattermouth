@@ -1,13 +1,21 @@
 [tool.poetry]
 name = "chattermouth"
 version = "0.1.0"
-description = "A library for interacting with users via text."
+description = "A library for text based bot interactions."
 authors = ["Stephan Wolski"]
 readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
+slackclient = {version = "^2.7.1", optional = true}
+spacy = {version = "^2.3.0", optional = true}
+pocketsphinx = {version = "^0.1.15", optional = true}
+
+[tool.poetry.extras]
+slack = ["slackclient"]
+spacy = ["spacy"]
+tts = ["pocketsphinx"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.3"
