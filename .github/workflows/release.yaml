@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
+      run: |
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+        source ~/.poetry/env
+        poetry install
+    - name: Build and Publish
+      id: build
+      run: |
+        source ~/.poetry/env
+        poetry build
+
+        wheel_file="$(ls dist | grep -E ".whl$" | head -n1)"
+        tar_file="$(ls dist | grep -E ".tar.gz$" | head -n1)"
+        version=$(python -c "import re; print(re.match(r'.*-([0-9.]+)-py\d-.*whl', '$wheel_file').group(1))")
+        package=$(python -c "import re; print(re.match(r'(.*)-[0-9.]+-py\d-.*whl', '$wheel_file').group(1))")
+
+        poetry run pdoc3 --html -o docs-raw "$package"
+        mv "docs-raw/$package" docs
+        tar -czf docs.tar.gz docs
+
+        echo "::set-output name=WHEEL_FILE::$wheel_file"
+        echo "::set-output name=TAR_FILE::$tar_file"
+        echo "::set-output name=VERSION::$version"
+        echo "::set-output name=PACKAGE::$package"
+
+        echo "In a real (non-template) repo you'd run 'poetry publish' here"
+    - name: Upload Wheel
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/${{ steps.build.outputs.WHEEL_FILE }}
+        asset_name: ${{ steps.build.outputs.WHEEL_FILE }}
+        asset_content_type: application/x-wheel+zip
+    - name: Upload Tar
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/${{ steps.build.outputs.TAR_FILE }}
+        asset_name: ${{ steps.build.outputs.TAR_FILE }}
+        asset_content_type: application/gzip
+    - name: Upload Documentation to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: docs.tar.gz
+        asset_name: ${{ steps.build.outputs.PACKAGE }}-${{ steps.build.outputs.VERSION }}-documentation.tar.gz
+        asset_content_type: application/gzip
+    - name: Publish Documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ github.token }}
+        publish_dir: ./docs
+        publish_branch: gh-pages
+        allow_empty_commit: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: "Documentation for ${{ steps.build.outputs.VERSION }}"

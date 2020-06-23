@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>chattermouth.core API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>chattermouth.core</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import abc
+from contextlib import contextmanager
+from contextvars import ContextVar
+from typing import Generator, Optional
+
+
+class UserInfo(abc.ABC):
+    &#34;&#34;&#34;Information about the user.&#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def get_full_name(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the full name of the user.&#34;&#34;&#34;
+        ...
+
+    async def get_first_name(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the first name of the user.&#34;&#34;&#34;
+        full_name = await self.get_full_name()
+        if full_name:
+            return full_name.split()[0]
+        return None
+
+    async def get_last_name(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the last name of the user.&#34;&#34;&#34;
+        full_name = await self.get_full_name()
+        if full_name:
+            return full_name.split()[-1]
+        return None
+
+    async def get_email(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the email address of the user.&#34;&#34;&#34;
+        return None
+
+
+class Message:
+    user: UserInfo
+    content: str
+
+    def __str__(self) -&gt; str:
+        return self.content
+
+    def __len__(self) -&gt; int:
+        return len(self.content)
+
+
+class AbstractInteractionContext(abc.ABC):
+    &#34;&#34;&#34;The abstract super type of the context used for interacting with the user.&#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def tell(self, message: str) -&gt; None:
+        &#34;&#34;&#34;Send a message to the user.
+
+        Args:
+            message: The message to send to the user.
+        &#34;&#34;&#34;
+        ...
+
+    @abc.abstractmethod
+    async def listen(self) -&gt; Message:
+        &#34;&#34;&#34;Listen for a message from the user.
+
+        Returns:
+            The first message the user reponds with.
+        &#34;&#34;&#34;
+        ...
+
+    async def ask(self, message: str) -&gt; Message:
+        &#34;&#34;&#34;Send a message to the user and listen for a response.
+
+        Args:
+            message: The message to send to the user.
+
+        Returns:
+            The first message the user responds with.
+        &#34;&#34;&#34;
+        await self.tell(message)
+        return await self.listen()
+
+
+_context: ContextVar[Optional[AbstractInteractionContext]] = ContextVar(&#34;context&#34;, default=None)
+
+
+def get_interaction_context() -&gt; Optional[AbstractInteractionContext]:
+    &#34;&#34;&#34;Get the current `AbstractInteractionContext`.&#34;&#34;&#34;
+    return _context.get()
+
+
+def interaction_context() -&gt; AbstractInteractionContext:
+    &#34;&#34;&#34;Get the current `AbstractInteractionContext`.
+
+    Raises:
+        AssertionError: If the context is not set.
+    &#34;&#34;&#34;
+    context = get_interaction_context()
+    assert context is not None
+    return context
+
+
+def set_interaction_context(context: Optional[AbstractInteractionContext] = None,) -&gt; None:
+    &#34;&#34;&#34;Set the current `AbstractInteractionContext`.&#34;&#34;&#34;
+    _context.set(context)
+
+
+@contextmanager
+def enter_interaction_context(context: Optional[AbstractInteractionContext] = None) -&gt; Generator[None, None, None]:
+    &#34;&#34;&#34;Set the current `AbstractInteractionContext` for a scope.
+
+    &gt;&gt;&gt; import chattermouth.cli
+    &gt;&gt;&gt; context = chattermouth.cli.CliInteractionContext()
+    &gt;&gt;&gt; with enter_interaction_context(context):
+    ...     interaction_context() is context
+    True
+    &#34;&#34;&#34;
+    token = _context.set(context)
+    yield
+    _context.reset(token)
+
+
+async def tell(message: str) -&gt; None:
+    &#34;&#34;&#34;Send a message to the user.
+
+    Args:
+        message: The message to send to the user.
+    &#34;&#34;&#34;
+    return await interaction_context().tell(message)
+
+
+async def listen() -&gt; Message:
+    &#34;&#34;&#34;Listen for a message from the user.
+
+    Returns:
+        The first message the user reponds with.
+    &#34;&#34;&#34;
+    return await interaction_context().listen()
+
+
+async def ask(message: str) -&gt; Message:
+    &#34;&#34;&#34;Send a message to the user and listen for a response.
+
+    Args:
+        message: The message to send to the user.
+
+    Returns:
+        The first message the user responds with.
+    &#34;&#34;&#34;
+    return await interaction_context().ask(message)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="chattermouth.core.ask"><code class="name flex">
+<span>async def <span class="ident">ask</span></span>(<span>message: str) -> <a title="chattermouth.core.Message" href="#chattermouth.core.Message">Message</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a message to the user and listen for a response.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong></dt>
+<dd>The message to send to the user.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The first message the user responds with.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def ask(message: str) -&gt; Message:
+    &#34;&#34;&#34;Send a message to the user and listen for a response.
+
+    Args:
+        message: The message to send to the user.
+
+    Returns:
+        The first message the user responds with.
+    &#34;&#34;&#34;
+    return await interaction_context().ask(message)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.enter_interaction_context"><code class="name flex">
+<span>def <span class="ident">enter_interaction_context</span></span>(<span>context: Union[chattermouth.core.AbstractInteractionContext, NoneType] = None) -> Generator[NoneType, NoneType, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the current <code><a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></code> for a scope.</p>
+<pre><code class="python">&gt;&gt;&gt; import chattermouth.cli
+&gt;&gt;&gt; context = chattermouth.cli.CliInteractionContext()
+&gt;&gt;&gt; with enter_interaction_context(context):
+...     interaction_context() is context
+True
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@contextmanager
+def enter_interaction_context(context: Optional[AbstractInteractionContext] = None) -&gt; Generator[None, None, None]:
+    &#34;&#34;&#34;Set the current `AbstractInteractionContext` for a scope.
+
+    &gt;&gt;&gt; import chattermouth.cli
+    &gt;&gt;&gt; context = chattermouth.cli.CliInteractionContext()
+    &gt;&gt;&gt; with enter_interaction_context(context):
+    ...     interaction_context() is context
+    True
+    &#34;&#34;&#34;
+    token = _context.set(context)
+    yield
+    _context.reset(token)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.get_interaction_context"><code class="name flex">
+<span>def <span class="ident">get_interaction_context</span></span>(<span>) -> Union[<a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a>, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the current <code><a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_interaction_context() -&gt; Optional[AbstractInteractionContext]:
+    &#34;&#34;&#34;Get the current `AbstractInteractionContext`.&#34;&#34;&#34;
+    return _context.get()</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.interaction_context"><code class="name flex">
+<span>def <span class="ident">interaction_context</span></span>(<span>) -> <a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the current <code><a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></code>.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>AssertionError</code></dt>
+<dd>If the context is not set.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def interaction_context() -&gt; AbstractInteractionContext:
+    &#34;&#34;&#34;Get the current `AbstractInteractionContext`.
+
+    Raises:
+        AssertionError: If the context is not set.
+    &#34;&#34;&#34;
+    context = get_interaction_context()
+    assert context is not None
+    return context</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.listen"><code class="name flex">
+<span>async def <span class="ident">listen</span></span>(<span>) -> <a title="chattermouth.core.Message" href="#chattermouth.core.Message">Message</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Listen for a message from the user.</p>
+<h2 id="returns">Returns</h2>
+<p>The first message the user reponds with.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def listen() -&gt; Message:
+    &#34;&#34;&#34;Listen for a message from the user.
+
+    Returns:
+        The first message the user reponds with.
+    &#34;&#34;&#34;
+    return await interaction_context().listen()</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.set_interaction_context"><code class="name flex">
+<span>def <span class="ident">set_interaction_context</span></span>(<span>context: Union[chattermouth.core.AbstractInteractionContext, NoneType] = None) -> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the current <code><a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_interaction_context(context: Optional[AbstractInteractionContext] = None,) -&gt; None:
+    &#34;&#34;&#34;Set the current `AbstractInteractionContext`.&#34;&#34;&#34;
+    _context.set(context)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.tell"><code class="name flex">
+<span>async def <span class="ident">tell</span></span>(<span>message: str) -> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a message to the user.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong></dt>
+<dd>The message to send to the user.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def tell(message: str) -&gt; None:
+    &#34;&#34;&#34;Send a message to the user.
+
+    Args:
+        message: The message to send to the user.
+    &#34;&#34;&#34;
+    return await interaction_context().tell(message)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="chattermouth.core.AbstractInteractionContext"><code class="flex name class">
+<span>class <span class="ident">AbstractInteractionContext</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>The abstract super type of the context used for interacting with the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AbstractInteractionContext(abc.ABC):
+    &#34;&#34;&#34;The abstract super type of the context used for interacting with the user.&#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def tell(self, message: str) -&gt; None:
+        &#34;&#34;&#34;Send a message to the user.
+
+        Args:
+            message: The message to send to the user.
+        &#34;&#34;&#34;
+        ...
+
+    @abc.abstractmethod
+    async def listen(self) -&gt; Message:
+        &#34;&#34;&#34;Listen for a message from the user.
+
+        Returns:
+            The first message the user reponds with.
+        &#34;&#34;&#34;
+        ...
+
+    async def ask(self, message: str) -&gt; Message:
+        &#34;&#34;&#34;Send a message to the user and listen for a response.
+
+        Args:
+            message: The message to send to the user.
+
+        Returns:
+            The first message the user responds with.
+        &#34;&#34;&#34;
+        await self.tell(message)
+        return await self.listen()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="chattermouth.cli.CliInteractionContext" href="cli.html#chattermouth.cli.CliInteractionContext">CliInteractionContext</a></li>
+<li><a title="chattermouth.slack.SlackInteractionContext" href="slack/index.html#chattermouth.slack.SlackInteractionContext">SlackInteractionContext</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="chattermouth.core.AbstractInteractionContext.ask"><code class="name flex">
+<span>async def <span class="ident">ask</span></span>(<span>self, message: str) -> <a title="chattermouth.core.Message" href="#chattermouth.core.Message">Message</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a message to the user and listen for a response.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong></dt>
+<dd>The message to send to the user.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The first message the user responds with.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def ask(self, message: str) -&gt; Message:
+    &#34;&#34;&#34;Send a message to the user and listen for a response.
+
+    Args:
+        message: The message to send to the user.
+
+    Returns:
+        The first message the user responds with.
+    &#34;&#34;&#34;
+    await self.tell(message)
+    return await self.listen()</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.AbstractInteractionContext.listen"><code class="name flex">
+<span>async def <span class="ident">listen</span></span>(<span>self) -> <a title="chattermouth.core.Message" href="#chattermouth.core.Message">Message</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Listen for a message from the user.</p>
+<h2 id="returns">Returns</h2>
+<p>The first message the user reponds with.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def listen(self) -&gt; Message:
+    &#34;&#34;&#34;Listen for a message from the user.
+
+    Returns:
+        The first message the user reponds with.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.AbstractInteractionContext.tell"><code class="name flex">
+<span>async def <span class="ident">tell</span></span>(<span>self, message: str) -> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a message to the user.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong></dt>
+<dd>The message to send to the user.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def tell(self, message: str) -&gt; None:
+    &#34;&#34;&#34;Send a message to the user.
+
+    Args:
+        message: The message to send to the user.
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="chattermouth.core.Message"><code class="flex name class">
+<span>class <span class="ident">Message</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Message:
+    user: UserInfo
+    content: str
+
+    def __str__(self) -&gt; str:
+        return self.content
+
+    def __len__(self) -&gt; int:
+        return len(self.content)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="chattermouth.cli.CliMessage" href="cli.html#chattermouth.cli.CliMessage">CliMessage</a></li>
+<li><a title="chattermouth.slack.SlackMessage" href="slack/index.html#chattermouth.slack.SlackMessage">SlackMessage</a></li>
+</ul>
+</dd>
+<dt id="chattermouth.core.UserInfo"><code class="flex name class">
+<span>class <span class="ident">UserInfo</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Information about the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UserInfo(abc.ABC):
+    &#34;&#34;&#34;Information about the user.&#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def get_full_name(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the full name of the user.&#34;&#34;&#34;
+        ...
+
+    async def get_first_name(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the first name of the user.&#34;&#34;&#34;
+        full_name = await self.get_full_name()
+        if full_name:
+            return full_name.split()[0]
+        return None
+
+    async def get_last_name(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the last name of the user.&#34;&#34;&#34;
+        full_name = await self.get_full_name()
+        if full_name:
+            return full_name.split()[-1]
+        return None
+
+    async def get_email(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;Get the email address of the user.&#34;&#34;&#34;
+        return None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="chattermouth.cli.CliUserInfo" href="cli.html#chattermouth.cli.CliUserInfo">CliUserInfo</a></li>
+<li><a title="chattermouth.slack.SlackUserInfo" href="slack/index.html#chattermouth.slack.SlackUserInfo">SlackUserInfo</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="chattermouth.core.UserInfo.get_email"><code class="name flex">
+<span>async def <span class="ident">get_email</span></span>(<span>self) -> Union[str, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the email address of the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_email(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;Get the email address of the user.&#34;&#34;&#34;
+    return None</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.UserInfo.get_first_name"><code class="name flex">
+<span>async def <span class="ident">get_first_name</span></span>(<span>self) -> Union[str, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the first name of the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_first_name(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;Get the first name of the user.&#34;&#34;&#34;
+    full_name = await self.get_full_name()
+    if full_name:
+        return full_name.split()[0]
+    return None</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.UserInfo.get_full_name"><code class="name flex">
+<span>async def <span class="ident">get_full_name</span></span>(<span>self) -> Union[str, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the full name of the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def get_full_name(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;Get the full name of the user.&#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.core.UserInfo.get_last_name"><code class="name flex">
+<span>async def <span class="ident">get_last_name</span></span>(<span>self) -> Union[str, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the last name of the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_last_name(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;Get the last name of the user.&#34;&#34;&#34;
+    full_name = await self.get_full_name()
+    if full_name:
+        return full_name.split()[-1]
+    return None</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="chattermouth" href="index.html">chattermouth</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="chattermouth.core.ask" href="#chattermouth.core.ask">ask</a></code></li>
+<li><code><a title="chattermouth.core.enter_interaction_context" href="#chattermouth.core.enter_interaction_context">enter_interaction_context</a></code></li>
+<li><code><a title="chattermouth.core.get_interaction_context" href="#chattermouth.core.get_interaction_context">get_interaction_context</a></code></li>
+<li><code><a title="chattermouth.core.interaction_context" href="#chattermouth.core.interaction_context">interaction_context</a></code></li>
+<li><code><a title="chattermouth.core.listen" href="#chattermouth.core.listen">listen</a></code></li>
+<li><code><a title="chattermouth.core.set_interaction_context" href="#chattermouth.core.set_interaction_context">set_interaction_context</a></code></li>
+<li><code><a title="chattermouth.core.tell" href="#chattermouth.core.tell">tell</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="chattermouth.core.AbstractInteractionContext" href="#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></code></h4>
+<ul class="">
+<li><code><a title="chattermouth.core.AbstractInteractionContext.ask" href="#chattermouth.core.AbstractInteractionContext.ask">ask</a></code></li>
+<li><code><a title="chattermouth.core.AbstractInteractionContext.listen" href="#chattermouth.core.AbstractInteractionContext.listen">listen</a></code></li>
+<li><code><a title="chattermouth.core.AbstractInteractionContext.tell" href="#chattermouth.core.AbstractInteractionContext.tell">tell</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="chattermouth.core.Message" href="#chattermouth.core.Message">Message</a></code></h4>
+</li>
+<li>
+<h4><code><a title="chattermouth.core.UserInfo" href="#chattermouth.core.UserInfo">UserInfo</a></code></h4>
+<ul class="">
+<li><code><a title="chattermouth.core.UserInfo.get_email" href="#chattermouth.core.UserInfo.get_email">get_email</a></code></li>
+<li><code><a title="chattermouth.core.UserInfo.get_first_name" href="#chattermouth.core.UserInfo.get_first_name">get_first_name</a></code></li>
+<li><code><a title="chattermouth.core.UserInfo.get_full_name" href="#chattermouth.core.UserInfo.get_full_name">get_full_name</a></code></li>
+<li><code><a title="chattermouth.core.UserInfo.get_last_name" href="#chattermouth.core.UserInfo.get_last_name">get_last_name</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

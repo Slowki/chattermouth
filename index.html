@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>chattermouth API documentation</title>
+<meta name="description" content="A library for text based bot interactions." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Package <code>chattermouth</code></h1>
+</header>
+<section id="section-intro">
+<p>A library for text based bot interactions.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;A library for text based bot interactions.&#34;&#34;&#34;
+
+from .core import ask, enter_interaction_context, interaction_context, listen, tell
+
+__all__ = [&#34;ask&#34;, &#34;enter_interaction_context&#34;, &#34;interaction_context&#34;, &#34;listen&#34;, &#34;tell&#34;]
+
+try:
+    from .nlp import ask_yes_or_no, enter_spacy_pipeline, enter_default_spacy_pipeline
+
+    __all__ += [&#34;ask_yes_or_no&#34;, &#34;enter_spacy_pipeline&#34;, &#34;enter_default_spacy_pipeline&#34;]
+except ImportError:
+    pass</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="chattermouth.cli" href="cli.html">chattermouth.cli</a></code></dt>
+<dd>
+<div class="desc"><p>An interaction context for the command line.</p></div>
+</dd>
+<dt><code class="name"><a title="chattermouth.core" href="core.html">chattermouth.core</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="chattermouth.nlp" href="nlp/index.html">chattermouth.nlp</a></code></dt>
+<dd>
+<div class="desc"><p>General NLP based utilities based on <a href="https://spacy.io/">spaCy</a>.</p></div>
+</dd>
+<dt><code class="name"><a title="chattermouth.slack" href="slack/index.html">chattermouth.slack</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="chattermouth.ask"><code class="name flex">
+<span>async def <span class="ident">ask</span></span>(<span>message: str) -> <a title="chattermouth.core.Message" href="core.html#chattermouth.core.Message">Message</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a message to the user and listen for a response.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong></dt>
+<dd>The message to send to the user.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The first message the user responds with.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def ask(message: str) -&gt; Message:
+    &#34;&#34;&#34;Send a message to the user and listen for a response.
+
+    Args:
+        message: The message to send to the user.
+
+    Returns:
+        The first message the user responds with.
+    &#34;&#34;&#34;
+    return await interaction_context().ask(message)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.ask_yes_or_no"><code class="name flex">
+<span>async def <span class="ident">ask_yes_or_no</span></span>(<span>question: str, threshold: float = 0.75) -> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Ask a yes or no question.</p>
+<h2 id="example">Example</h2>
+<pre><code class="python">try:
+    if await ask_yes_or_no(&quot;Do you want to apply that change now?&quot;):
+        # We got a &quot;yes&quot; type response.
+        apply_change(change_id)
+    else:
+        # We got a &quot;no&quot; type response.
+        await tell(f&quot;Okay, if you want to apply it later run 'corp-apply-change {change_id}'.&quot;)
+except NoClassificationError:
+    # We got something that wasn't a &quot;yes&quot; or a &quot;no&quot; type of message.
+    await tell(&quot;Sorry, I didn't understand that&quot;)
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>question</code></strong></dt>
+<dd>The question to ask the user.</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>The confidence threshold for the classification.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NoClassificationError</code></dt>
+<dd>If the response cannot be classifed as a "yes" or a "no".</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p><code>True</code> if the response was similiar to yes, eg. "Yep, it does." or <code>False</code> if if the statement is similiar to
+a no, eg. "No, I don't.".</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def ask_yes_or_no(question: str, threshold: float = 0.75) -&gt; bool:
+    &#34;&#34;&#34;Ask a yes or no question.
+
+    ## Example
+    ```python
+    try:
+        if await ask_yes_or_no(&#34;Do you want to apply that change now?&#34;):
+            # We got a &#34;yes&#34; type response.
+            apply_change(change_id)
+        else:
+            # We got a &#34;no&#34; type response.
+            await tell(f&#34;Okay, if you want to apply it later run &#39;corp-apply-change {change_id}&#39;.&#34;)
+    except NoClassificationError:
+        # We got something that wasn&#39;t a &#34;yes&#34; or a &#34;no&#34; type of message.
+        await tell(&#34;Sorry, I didn&#39;t understand that&#34;)
+    ```
+
+    Args:
+        question: The question to ask the user.
+        threshold: The confidence threshold for the classification.
+
+    Raises:
+        NoClassificationError: If the response cannot be classifed as a &#34;yes&#34; or a &#34;no&#34;.
+
+    Returns:
+        `True` if the response was similiar to yes, eg. &#34;Yep, it does.&#34; or `False` if if the statement is similiar to
+        a no, eg. &#34;No, I don&#39;t.&#34;.
+    &#34;&#34;&#34;
+    return classify_yes_no(str(await ask(question)), threshold=threshold)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.enter_default_spacy_pipeline"><code class="name flex">
+<span>def <span class="ident">enter_default_spacy_pipeline</span></span>(<span>) -> AbstractContextManager</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the current spaCy pipeline for a scope to a default.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def enter_default_spacy_pipeline() -&gt; ContextManager:
+    &#34;&#34;&#34;Set the current spaCy pipeline for a scope to a default.&#34;&#34;&#34;
+    return enter_spacy_pipeline(get_default_spacy_pipeline())</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.enter_interaction_context"><code class="name flex">
+<span>def <span class="ident">enter_interaction_context</span></span>(<span>context: Union[chattermouth.core.AbstractInteractionContext, NoneType] = None) -> Generator[NoneType, NoneType, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the current <code>AbstractInteractionContext</code> for a scope.</p>
+<pre><code class="python">&gt;&gt;&gt; import chattermouth.cli
+&gt;&gt;&gt; context = chattermouth.cli.CliInteractionContext()
+&gt;&gt;&gt; with enter_interaction_context(context):
+...     interaction_context() is context
+True
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@contextmanager
+def enter_interaction_context(context: Optional[AbstractInteractionContext] = None) -&gt; Generator[None, None, None]:
+    &#34;&#34;&#34;Set the current `AbstractInteractionContext` for a scope.
+
+    &gt;&gt;&gt; import chattermouth.cli
+    &gt;&gt;&gt; context = chattermouth.cli.CliInteractionContext()
+    &gt;&gt;&gt; with enter_interaction_context(context):
+    ...     interaction_context() is context
+    True
+    &#34;&#34;&#34;
+    token = _context.set(context)
+    yield
+    _context.reset(token)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.enter_spacy_pipeline"><code class="name flex">
+<span>def <span class="ident">enter_spacy_pipeline</span></span>(<span>context: Union[spacy.language.Language, NoneType] = None) -> Generator[NoneType, NoneType, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the current spaCy pipeline for a scope.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@contextmanager
+def enter_spacy_pipeline(context: Optional[spacy.language.Language] = None) -&gt; Generator[None, None, None]:
+    &#34;&#34;&#34;Set the current spaCy pipeline for a scope.&#34;&#34;&#34;
+    token = _spacy_pipeline.set(context)
+    yield
+    _spacy_pipeline.reset(token)</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.interaction_context"><code class="name flex">
+<span>def <span class="ident">interaction_context</span></span>(<span>) -> <a title="chattermouth.core.AbstractInteractionContext" href="core.html#chattermouth.core.AbstractInteractionContext">AbstractInteractionContext</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the current <code>AbstractInteractionContext</code>.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>AssertionError</code></dt>
+<dd>If the context is not set.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def interaction_context() -&gt; AbstractInteractionContext:
+    &#34;&#34;&#34;Get the current `AbstractInteractionContext`.
+
+    Raises:
+        AssertionError: If the context is not set.
+    &#34;&#34;&#34;
+    context = get_interaction_context()
+    assert context is not None
+    return context</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.listen"><code class="name flex">
+<span>async def <span class="ident">listen</span></span>(<span>) -> <a title="chattermouth.core.Message" href="core.html#chattermouth.core.Message">Message</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Listen for a message from the user.</p>
+<h2 id="returns">Returns</h2>
+<p>The first message the user reponds with.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def listen() -&gt; Message:
+    &#34;&#34;&#34;Listen for a message from the user.
+
+    Returns:
+        The first message the user reponds with.
+    &#34;&#34;&#34;
+    return await interaction_context().listen()</code></pre>
+</details>
+</dd>
+<dt id="chattermouth.tell"><code class="name flex">
+<span>async def <span class="ident">tell</span></span>(<span>message: str) -> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a message to the user.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong></dt>
+<dd>The message to send to the user.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def tell(message: str) -&gt; None:
+    &#34;&#34;&#34;Send a message to the user.
+
+    Args:
+        message: The message to send to the user.
+    &#34;&#34;&#34;
+    return await interaction_context().tell(message)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="chattermouth.cli" href="cli.html">chattermouth.cli</a></code></li>
+<li><code><a title="chattermouth.core" href="core.html">chattermouth.core</a></code></li>
+<li><code><a title="chattermouth.nlp" href="nlp/index.html">chattermouth.nlp</a></code></li>
+<li><code><a title="chattermouth.slack" href="slack/index.html">chattermouth.slack</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="chattermouth.ask" href="#chattermouth.ask">ask</a></code></li>
+<li><code><a title="chattermouth.ask_yes_or_no" href="#chattermouth.ask_yes_or_no">ask_yes_or_no</a></code></li>
+<li><code><a title="chattermouth.enter_default_spacy_pipeline" href="#chattermouth.enter_default_spacy_pipeline">enter_default_spacy_pipeline</a></code></li>
+<li><code><a title="chattermouth.enter_interaction_context" href="#chattermouth.enter_interaction_context">enter_interaction_context</a></code></li>
+<li><code><a title="chattermouth.enter_spacy_pipeline" href="#chattermouth.enter_spacy_pipeline">enter_spacy_pipeline</a></code></li>
+<li><code><a title="chattermouth.interaction_context" href="#chattermouth.interaction_context">interaction_context</a></code></li>
+<li><code><a title="chattermouth.listen" href="#chattermouth.listen">listen</a></code></li>
+<li><code><a title="chattermouth.tell" href="#chattermouth.tell">tell</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
