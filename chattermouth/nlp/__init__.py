@@ -31,15 +31,15 @@ async def ask_yes_or_no(question: str, threshold: float = 0.75) -> bool:
     ## Example
     ```python
     try:
-        if ask_yes_or_no("Do you want to apply that change now?"):
+        if await ask_yes_or_no("Do you want to apply that change now?"):
             # We got a "yes" type response.
             apply_change(change_id)
         else:
             # We got a "no" type response.
-            tell(f"Okay, if you want to apply it later run 'corp-apply-change {change_id}'.")
+            await tell(f"Okay, if you want to apply it later run 'corp-apply-change {change_id}'.")
     except NoClassificationError:
         # We got something that wasn't a "yes" or a "no" type of message.
-        tell("Sorry, I didn't understand that")
+        await tell("Sorry, I didn't understand that")
     ```
 
     Args:
@@ -60,7 +60,7 @@ def classify_yes_no(text: str, threshold: float) -> bool:
     """Classify a piece of text as either a "yes" response or a "no" response.
 
     >>> with enter_default_spacy_pipeline():
-    ...     classify_yes_no("yeah", threshold=0.75)
+    ...     classify_yes_no("yep", threshold=0.5)
     True
 
     Args:

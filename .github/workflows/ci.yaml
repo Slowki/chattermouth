@@ -53,7 +53,8 @@ jobs:
             curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
         fi
         source ~/.poetry/env
-        poetry install
+        poetry install -E nlp -E slack
+        poetry run python -m spacy download en_core_web_sm
     - name: Test with pytest
       run: |
         source ~/.poetry/env

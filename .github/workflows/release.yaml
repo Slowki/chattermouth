@@ -17,7 +17,8 @@ jobs:
       run: |
         curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
         source ~/.poetry/env
-        poetry install
+        poetry install -E nlp -E slack
+        poetry run python -m spacy download en_core_web_sm
     - name: Build and Publish
       id: build
       run: |
@@ -29,7 +30,8 @@ jobs:
         version=$(python -c "import re; print(re.match(r'.*-([0-9.]+)-py\d-.*whl', '$wheel_file').group(1))")
         package=$(python -c "import re; print(re.match(r'(.*)-[0-9.]+-py\d-.*whl', '$wheel_file').group(1))")
 
-        poetry run pdoc3 --html -o docs "$package"
+        poetry run pdoc3 --html -o docs-raw "$package"
+        mv "docs-raw/$package" docs
         tar -czf docs.tar.gz docs
 
         echo "::set-output name=WHEEL_FILE::$wheel_file"

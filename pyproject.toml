@@ -10,12 +10,10 @@ license = "MIT"
 python = "^3.7"
 slackclient = {version = "^2.7.1", optional = true}
 spacy = {version = "^2.3.0", optional = true}
-pocketsphinx = {version = "^0.1.15", optional = true}
 
 [tool.poetry.extras]
 slack = ["slackclient"]
-spacy = ["spacy"]
-tts = ["pocketsphinx"]
+nlp = ["spacy"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.3"
